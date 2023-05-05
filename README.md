@@ -44,3 +44,8 @@ WXPACKUP_APP_ID=wx18898989899989
     "beforeUpload": "npx wxpackup beforeUpload",
 }
 ```
+
+
+## Demo 示例
+
+[wxpackup-startkit](https://github.com/charlzyx/wxpackup-startkit)
