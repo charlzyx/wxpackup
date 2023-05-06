@@ -7,7 +7,7 @@ name: npm publish
 on:
   push:
     branches:
-      - release
+      - release/*
 
 jobs:
   publish-npm:
