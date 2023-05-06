@@ -131,7 +131,7 @@ module.exports = {
   ignores: ['node_modules/**/*'],
   privateKeyPath: '.keystore',
   compileOptions:
-    process.env.NODE_ENV === 'devlopment'
+    process.env.NODE_ENV === 'development'
       ? {
           minify: false,
           autoPrefixWXSS: true,
