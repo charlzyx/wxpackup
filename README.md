@@ -51,7 +51,7 @@ yarn install wxpackup --dev
 
 ## 环境变量 .env/.env*
 
-1. 其中 `APP_` (`APP_ID`除外) 的环境变量, 会在 `beforeCompile` 钩子中, 解析并写入 `src/env.ts` 文件
+1. 其中 `APP_` 开头 (`APP_ID`除外) 的环境变量, 会在 `beforeCompile` 钩子中, 解析并写入 `src/env.ts` 文件
 
 2. `DEBUG`, `APP_ID`, `PRIVATE_KEY_PATH`, `WX_DEV_TOOLS_PATH` 则将作为 `wxpackup` 的配置项来使用
 
