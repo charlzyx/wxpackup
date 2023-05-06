@@ -6,7 +6,13 @@
   "typings": "index.d.ts",
   "scripts": {},
   "keywords": [
-    "miniprogram", "wxpackup", "wechat", "小程序", "打包", "ts", "cli"
+    "miniprogram",
+    "wxpackup",
+    "wechat",
+    "小程序",
+    "打包",
+    "ts",
+    "cli"
   ],
   "author": "charlzyx@qq.com",
   "repository": {
@@ -17,6 +23,7 @@
   "dependencies": {
     "chalk": "^5.2.0",
     "jimp": "^0.22.7",
+    "js-beautify": "^1.14.7",
     "jsqr": "^1.4.0",
     "miniprogram-ci": "^1.9.6",
     "ora": "^6.3.0",

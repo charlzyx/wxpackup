@@ -2,9 +2,18 @@
 
 const spawn = require('child_process').spawn;
 const yargs = require('yargs/yargs');
+const fs = require('fs');
 const { hideBin } = require('yargs/helpers');
 const path = require('path');
 
+const FORMAT = {
+  content_unformatted: 'text',
+  wrap_attributes: 'force-expand-multiline',
+  indent_size: 2,
+  wrap_attributes_indent_size: 2,
+  void_elements: 'image,input,video',
+  indent_scripts: 'keep',
+};
 const tsx = (command) => {
   const [filePath, ...others] = command.split(' ');
   const pkgFile = path.resolve(__dirname, '../src/', filePath);
@@ -16,6 +25,32 @@ const tsx = (command) => {
 };
 
 yargs(hideBin(process.argv))
+  .command(
+    'format <file>',
+    '格式化代码 WXML only',
+    (yargs) => {
+      return yargs.positional('file', {
+        type: 'string',
+        describe: '需要格式化的文件',
+      });
+    },
+    (argv) => {
+      const file = argv.file;
+      const isFileExists = fs.existsSync(file);
+      const isWXMLFile = /\.wxml$/.test(file);
+      if (!isFileExists || !isWXMLFile) return;
+
+      const code = fs.readFileSync(file, 'utf-8');
+      const jsb_html = require('js-beautify').html;
+
+      try {
+        content = jsb_html(code, FORMAT);
+        fs.writeFileSync(file, content, 'utf-8');
+      } catch (error) {
+        console.error(`FORMAT FILE ERROR${error}`);
+      }
+    },
+  )
   .command(
     'beforeCompile',
     '编译前预处理脚本',
