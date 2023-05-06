@@ -153,6 +153,7 @@ module.exports = {
 wxpackup [命令]
 
 命令：
+  index.js format <file>   格式化代码, 仅支持 WXML
   wxpackup beforeCompile   编译前预处理脚本
   wxpackup beforePreview   预览前预处理脚本
   wxpackup beforeUpload    上传前预处理脚本
@@ -204,8 +205,6 @@ wxpackup ci <buildtype>
     "beforeUpload": "npx wxpackup beforeUpload",
 }
 ```
-
-
 ## Demo 示例
 
 [wxpackup-startkit](https://github.com/charlzyx/wxpackup-startkit)

@@ -27,7 +27,7 @@ const tsx = (command) => {
 yargs(hideBin(process.argv))
   .command(
     'format <file>',
-    '格式化代码 WXML only',
+    '格式化代码, 仅支持 WXML',
     (yargs) => {
       return yargs.positional('file', {
         type: 'string',
