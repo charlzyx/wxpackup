@@ -5,6 +5,13 @@ wxpackup 是一个原生小程序项目的打包工具, 旨在提升原生小程
 主要目标是为原生小程序项目完善比较现代化的多环境构建项目配置,
 同时封装了小程序官方的 ci/cli 命令, 来方便开发者使用.
 
+## 安装
+
+```bash
+npm install wxpackup --dev
+yarn install wxpackup --dev
+```
+
 
 ## 项目结构
 
