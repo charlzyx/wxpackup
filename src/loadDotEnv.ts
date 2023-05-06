@@ -53,7 +53,8 @@ export const loadDotEnv = (env?: string) => {
   const loadEnvFiles = fs.readdirSync(byPWD('./.env')).filter((item) => {
     const [_, __, envSuffix] = item.split('.');
     if (env !== undefined) {
-      return !envSuffix || envSuffix.toUpperCase() === env.toUpperCase();
+      const envStr = Array.isArray(env) ? env.filter(Boolean)[0] : env;
+      return !envSuffix || envSuffix.toUpperCase() === envStr?.toUpperCase();
     } else {
       const config = loadConfig();
       return (

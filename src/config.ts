@@ -26,6 +26,17 @@ type WxPackupConfigByRc = {
   privateKeyPath?: string;
   wxDevToolsPath?: string;
   ignores?: string[];
+  compileOptions?: {
+    es6?: boolean;
+    es7?: boolean;
+    minify?: boolean;
+    autoPrefixWXSS?: boolean;
+    minifyWXML?: boolean;
+    minifyWXSS?: boolean;
+    minifyJS?: boolean;
+    codeProtect?: boolean;
+    uploadWithSourceMap?: boolean;
+  };
   packNpm?: {
     manually: boolean;
     ignores: string[];
@@ -60,6 +71,12 @@ const defaultConfig: WxPackupConfigByRc & WxPackupConfigReadOnly = {
   type: 'miniProgram',
   projectPath: process.cwd(),
   privateKeyPath: '.keystore',
+  compileOptions: {
+    minify: true,
+    autoPrefixWXSS: true,
+    es6: true,
+    es7: true,
+  },
   ignores: ['node_modules/**/*'],
 };
 

@@ -205,7 +205,7 @@ export const run = async (
         version: pub.version,
         desc: pub.desc,
         onProgressUpdate: spinner(),
-        setting: CompileConfig.preview,
+        setting: config.compileOptions,
       };
       rsp = await ci.upload(conf);
       // log.grey(`--${hint}发布配置`, JSON.stringify(conf, null, 2));
@@ -215,7 +215,7 @@ export const run = async (
         version: pub.version,
         desc: pub.desc,
         onProgressUpdate: spinner(),
-        setting: CompileConfig.preview,
+        setting: config.compileOptions,
         qrcodeFormat: 'image',
         qrcodeOutputDest: outputQRCodePath,
       };
