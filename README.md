@@ -89,7 +89,7 @@ APP_API_PREFIX=https://test.example.com
 1. 环境变量 `process.env` , 拼写格式为 `SNAKE_CASE`
 2. 命令行参数 `wxpackup --some-opt=something`,  拼写格式为 `kabeb-case`
 3. `.env.*` 中的环境变量 如: `DEBUG=true`, 拼写格式为 `SNAKE_CASE`
-4. 配置文件 `wxpackup.config.js`, 拼写格式为 `camelCase`
+4. 配置文件 `wxpackup.config.js`, 拼写格式为 `camelCase`, 可以读取环境变量
 5. 内置的默认配置
 
 全量配置项如下, 最终 merge 完成的配置具体来源可以查看控制台输出
@@ -121,6 +121,29 @@ type WxPackupConfigByRc = {
 type WxPackupConfigReadOnly = {
   projectPath: string;
   type: 'miniProgram';
+};
+```
+
+wxpackup.config.js
+```
+/** @type import('wxpackup').WxPackupConfig */
+module.exports = {
+  ignores: ['node_modules/**/*'],
+  privateKeyPath: '.keystore',
+  compileOptions:
+    process.env.NODE_ENV === 'devlopment'
+      ? {
+          minify: false,
+          autoPrefixWXSS: true,
+          es6: true,
+          es7: true,
+        }
+      : {
+          minify: true,
+          autoPrefixWXSS: true,
+          es6: true,
+          es7: true,
+        },
 };
 ```
 
