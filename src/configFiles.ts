@@ -3,7 +3,7 @@ import { byPWD, ifNotFoundThrowError } from './utils';
 import fs from 'fs';
 import path from 'path';
 
-export const CONFIGS = {
+export const CONFIG_FILES = {
   packageJson: {
     filePath: byPWD('./package.json'),
     read() {
@@ -16,7 +16,7 @@ export const CONFIGS = {
     },
   },
   projectConfig: {
-    filePath: 'dynamic_by_define',
+    filePath: byPWD('project.config.json'),
     read() {
       ifNotFoundThrowError(this.filePath);
       delete require.cache[this.filePath];
@@ -51,18 +51,10 @@ export const CONFIGS = {
   },
 };
 
-Object.defineProperty(CONFIGS.projectConfig, 'filePath', {
+Object.defineProperty(CONFIG_FILES.appJson, 'filePath', {
   get() {
-    const config = loadConfig();
-    return path.join(config.projectPath, './project.config.json');
-  },
-});
-Object.defineProperty(CONFIGS.appJson, 'filePath', {
-  get() {
-    const config = loadConfig();
     return byPWD(
-      require(path.join(config.projectPath, './project.config.json'))
-        .miniprogramRoot,
+      require(CONFIG_FILES.projectConfig.filePath).miniprogramRoot,
       './app.json',
     );
   },

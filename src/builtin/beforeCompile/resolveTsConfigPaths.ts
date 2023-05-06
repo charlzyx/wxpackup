@@ -1,9 +1,9 @@
-import { CONFIGS } from '../../configFiles';
+import { CONFIG_FILES } from '../../configFiles';
 
 export const resolveTsConfigPathsToAlias = () => {
-  const tsConfig = CONFIGS.tsConfig.read();
-  const projectConfig = CONFIGS.projectConfig.read();
-  const appJson = CONFIGS.appJson.read();
+  const tsConfig = CONFIG_FILES.tsConfig.read();
+  const projectConfig = CONFIG_FILES.projectConfig.read();
+  const appJson = CONFIG_FILES.appJson.read();
   const paths = tsConfig.compilerOptions.paths || {};
 
   const pathsToAlias = (o: Record<string, string[]>) => {
@@ -26,5 +26,5 @@ export const resolveTsConfigPathsToAlias = () => {
 
   if (BEFORE === AFTER) return;
 
-  CONFIGS.appJson.rewrite(JSON.stringify(appJson, null, 2));
+  CONFIG_FILES.appJson.rewrite(JSON.stringify(appJson, null, 2));
 };

@@ -1,7 +1,6 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { loadConfig } from '../config';
 import { log } from '../log';
 import { byPWD } from '../utils';
 
@@ -13,17 +12,13 @@ export const tsx = (command: string) => {
 };
 
 export const getCutomeScripts = () => {
-  const dir = loadConfig().preHookScriptsDir;
   const scripts = {
     beforeCompile: '',
     beforePreview: '',
     beforeUpload: '',
   };
-  if (!dir) {
-    return scripts;
-  }
-  const scriptsDir = byPWD(dir);
-  console.log('---', { dir, scriptsDir });
+
+  const scriptsDir = byPWD('scripts');
   if (!fs.existsSync(scriptsDir)) {
     log.bgYellow('自定义预处理脚本文件夹不存在, 跳过');
     return scripts;

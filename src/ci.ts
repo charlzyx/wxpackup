@@ -1,4 +1,6 @@
 import * as ci from 'miniprogram-ci';
+import fs from 'fs';
+import path from 'path';
 import {
   generateQrcodeImageFile,
   printQrcode2Terminal,
@@ -7,7 +9,7 @@ import {
 import { log, spinner } from './log';
 import { loadConfig } from './config';
 import { byPWD, ifNotFoundThrowError, kbSize } from './utils';
-import { CONFIGS } from './configFiles';
+import { CONFIG_FILES } from './configFiles';
 
 const config = loadConfig();
 
@@ -30,17 +32,19 @@ const CompileConfig: {
 };
 
 const getProject = () => {
-  const hint = 'private.${appid}.key';
-  const appId = CONFIGS.projectConfig.read().appid;
-  const privateKeyPath = byPWD(config.privateKeyDir, hint).replace(
-    '${appid}',
-    appId,
-  );
+  let privateKeyPath = byPWD(config.privateKeyPath);
+  const appId = CONFIG_FILES.projectConfig.read().appid;
+
+  const isDir = fs.statSync(privateKeyPath).isDirectory();
+  if (isDir) {
+    const hint = 'private.${appid}.key';
+    privateKeyPath = path.join(privateKeyPath, hint).replace('${appid}', appId);
+  }
 
   ifNotFoundThrowError(
     privateKeyPath,
     `秘钥文件未找到, 请确认文件是否存在, 并检查一下配置项
- - .env/.env.xxx 中 WXPACKUP_APP_ID 字段
+ - .env/.env.xxx 中 APP_ID 字段
  - project.config.json 中 appid 字段`,
   );
 
@@ -163,7 +167,11 @@ export const pkgNpm = async (project: ReturnType<typeof getProject>) => {
 };
 
 export const run = async (
-  type: 'preview' | 'upload' | 'packnpm' = 'preview',
+  type: 'preview' | 'upload' | 'packnpm',
+  pub: {
+    version: string;
+    desc: string;
+  },
 ) => {
   try {
     if (type === 'packnpm') {
@@ -186,9 +194,7 @@ export const run = async (
     await pkgNpm(project);
 
     log.bgGreen(`上传${hint}代码到微信后台并预览`);
-    log.green(
-      `本次上传版本号为："${config.pubVersion}"，上传描述为：“${config.pubDesc}”`,
-    );
+    log.green(`本次上传版本号为："${pub.version}"，上传描述为：“${pub.desc}”`);
 
     let rsp:
       | Awaited<ReturnType<typeof ci.preview>>
@@ -196,8 +202,8 @@ export const run = async (
     if (type === 'upload') {
       const conf: Parameters<typeof ci.upload>[0] = {
         project,
-        version: config.pubVersion,
-        desc: config.pubDesc,
+        version: pub.version,
+        desc: pub.desc,
         onProgressUpdate: spinner(),
         setting: CompileConfig.preview,
       };
@@ -206,8 +212,8 @@ export const run = async (
     } else {
       const conf: Parameters<typeof ci.preview>[0] = {
         project,
-        version: config.pubVersion,
-        desc: config.pubDesc,
+        version: pub.version,
+        desc: pub.desc,
         onProgressUpdate: spinner(),
         setting: CompileConfig.preview,
         qrcodeFormat: 'image',

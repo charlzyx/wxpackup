@@ -28,22 +28,19 @@ export const spinner = () => {
 const makeChalkProxy = (
   memo: any = chalk,
   logger = console.log,
-  debugFlag = false,
 ): typeof chalk => {
   return new Proxy(() => {}, {
     get(_, propKey) {
       if (propKey === 'debug') {
-        return makeChalkProxy(memo, logger, true);
+        return makeChalkProxy(memo, logger);
       }
       memo = memo[propKey];
-      return makeChalkProxy(memo, logger, debugFlag);
+      return makeChalkProxy(memo, logger);
     },
     apply(_, __, argArray) {
       const ret = Reflect.apply(memo, memo, argArray);
 
       if (typeof ret === 'string') {
-        const shouldOutput = debugFlag ? process.env.WXPACKUP_DEBUG : false;
-        if (!shouldOutput) return;
         logger(ret);
       }
       return ret;

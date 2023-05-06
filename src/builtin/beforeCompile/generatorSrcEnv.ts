@@ -5,7 +5,7 @@ export const generatorEnv = (outputs: string[]) => {
   const envs = loadDotEnv(process.env.env);
   const envTsFile = Object.entries(envs)
     .map(([k, v]) => {
-      if (/^WXPACKUP_/.test(k)) {
+      if ('APP_ID' !== k && /^APP_/.test(k)) {
         return '';
       }
       return `export const ${k} = '${v}';`;

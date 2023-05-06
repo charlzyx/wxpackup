@@ -18,7 +18,7 @@ const tsx = (command) => {
 yargs(hideBin(process.argv))
   .command(
     'beforeCompile',
-    'call beforeCompile scripts',
+    '编译前预处理脚本',
     (yargs) => {},
     (argv) => {
       const rest = process.argv.slice(3).join(' ');
@@ -27,7 +27,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'beforePreview',
-    'call beforePreview scripts',
+    '预览前预处理脚本',
     (yargs) => {},
     (argv) => {
       const rest = process.argv.slice(3).join(' ');
@@ -36,7 +36,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'beforeUpload',
-    'call beforeUpload scripts',
+    '上传前预处理脚本',
     (yargs) => {},
     (argv) => {
       const rest = process.argv.slice(3).join(' ');
@@ -45,12 +45,14 @@ yargs(hideBin(process.argv))
   )
   .command(
     'ci <buildtype>',
-    'miniprograme ci',
+    '小程序项目代码的编译命令行',
     (yargs) => {
       yargs.positional('buildtype', {
         choices: ['preview', 'upload', 'packnpm'],
         type: 'string',
         default: 'preview',
+        describe:
+          '目前仅支持 preview 预览, upload 上传, packnpm 构建npm 三种类型\n 更多文档: https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html',
       });
     },
     (argv) => {
@@ -60,10 +62,12 @@ yargs(hideBin(process.argv))
   )
   .command(
     'cli [action]',
-    '命令行工具包装',
+    '开发者工具命令行',
     (yargs) => {
       yargs.positional('action', {
         type: 'string',
+        describe:
+          'wxpackup cli open #使用微信开发者工具打开当前项目;\n 更多命令查看 https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html',
       });
     },
     (argv) => {
@@ -73,6 +77,6 @@ yargs(hideBin(process.argv))
   )
   .option('env', {
     type: 'string',
-    description: 'environment of compiler',
+    description: '项目编译环境',
   })
   .parse();

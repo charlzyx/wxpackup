@@ -10,30 +10,30 @@ const config = loadConfig();
 
 const check = () => {
   const isWindows = os.platform() === 'win32';
-  const devToolsInstallPath =
-    config.devToolsInstallPath ||
+  const wxDevToolsPath =
+    config.wxDevToolsPath ||
     (!isWindows
       ? '/Applications/wechatwebdevtools.app'
       : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具');
 
-  if (!fs.existsSync(devToolsInstallPath)) {
+  if (!fs.existsSync(wxDevToolsPath)) {
     log.red(
-      `在路径 ${devToolsInstallPath} 中未找到开发者工具, 请检查路径是否正确;
+      `在路径 ${wxDevToolsPath} 中未找到开发者工具, 请检查路径是否正确;
 未安装微信开发者工具, cli 相关功能将不可用`,
     );
   }
 
   const files = {
     bin: path.join(
-      devToolsInstallPath,
+      wxDevToolsPath,
       isWindows ? '/cli.bat' : '/Contents/MacOS/cli',
     ),
-    ideStatusFile: path.join(
-      getUserHomeDir(),
-      isWindows
-        ? '/AppData/Local/微信开发者工具/User Data/Default/.ide-status'
-        : '/Library/Application Support/微信开发者工具/Default/.ide-status',
-    ),
+    // ideStatusFile: path.join(
+    //   getUserHomeDir(),
+    //   isWindows
+    //     ? '/AppData/Local/微信开发者工具/User Data/Default/.ide-status'
+    //     : '/Library/Application Support/微信开发者工具/Default/.ide-status',
+    // ),
   };
 
   const helper =

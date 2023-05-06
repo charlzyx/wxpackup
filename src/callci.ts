@@ -2,6 +2,14 @@ import { run } from './ci';
 
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
+import { CONFIG_FILES } from './configFiles';
+
+const getPublishInfo = () => {
+  return {
+    version: CONFIG_FILES.packageJson.read().version,
+    desc: '修复了一些已知问题',
+  };
+};
 
 yargs(hideBin(process.argv))
   .command(
@@ -14,15 +22,16 @@ yargs(hideBin(process.argv))
     },
     async (argv) => {
       const buildtype = argv.buildtype;
+      const info = getPublishInfo();
       switch (buildtype) {
         case 'packnpm':
-          await run('packnpm');
+          await run('packnpm', info);
           break;
         case 'preview':
-          await run('preview');
+          await run('preview', info);
           break;
         case 'upload':
-          await run('upload');
+          await run('upload', info);
           break;
 
         default:

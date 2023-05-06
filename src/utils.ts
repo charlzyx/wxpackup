@@ -46,3 +46,47 @@ export function getUserHomeDir(): string {
     ? os.homedir()
     : homedir();
 }
+
+export const caseSwitch = (input: string = '') => {
+  const isSnake = /_/.test(input);
+  const isKebab = /-/.test(input);
+  const isPascal = /^[A-Z]/.test(input);
+  const isCamel = !(isSnake || isKebab || isPascal);
+  if (input === 'DEBUG') {
+    console.log({ isCamel, isKebab, isPascal, isSnake });
+  }
+
+  return {
+    snake() {
+      if (isKebab) return input.toLowerCase().replace(/-/g, '_');
+      if (isCamel) return input.replace(/([A-Z])/g, '_$1').toLowerCase();
+      if (isPascal) return caseSwitch(caseSwitch(input).camel()).snake();
+      return input.toLowerCase();
+    },
+    kebab() {
+      if (isSnake) return input.toLowerCase().replace(/_/g, '-');
+      if (isCamel) return input.replace(/([A-Z])/g, '-$1').toLowerCase();
+      if (isPascal) return caseSwitch(caseSwitch(input).camel()).kebab();
+      return input;
+    },
+    camel() {
+      if (isSnake)
+        return input
+          .toLowerCase()
+          .replace(/(_[a-z])/g, (x) => x.toUpperCase()[1]);
+      if (isKebab)
+        return input
+          .toLowerCase()
+          .replace(/(-[a-z])/g, (x) => x.toUpperCase()[1]);
+      if (isPascal)
+        return /[a-z]/.test(input)
+          ? input.replace(/^[A-Z]/, (x) => x.toLowerCase())
+          : input.toLowerCase();
+      return input;
+    },
+    Pascal() {
+      const camel = caseSwitch(input).camel();
+      return camel.replace(/^[a-z]/, (x) => x.toUpperCase());
+    },
+  };
+};

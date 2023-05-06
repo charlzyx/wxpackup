@@ -56,7 +56,9 @@ export const loadDotEnv = (env?: string) => {
       return !envSuffix || envSuffix.toUpperCase() === env.toUpperCase();
     } else {
       const config = loadConfig();
-      return !envSuffix || envSuffix.toUpperCase() === config.env.toUpperCase();
+      return (
+        !envSuffix || envSuffix.toUpperCase() === config.env?.toUpperCase()
+      );
     }
   });
 
