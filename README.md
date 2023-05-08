@@ -1,5 +1,9 @@
 # wxpackup 微信小程序打包工具
 
+[![npm](https://img.shields.io/npm/v/wxpackup
+)](https://www.npmjs.com/package/wxpackup)
+[![star this repo](https://img.shields.io/github/stars/charlzyx/wxpackup?style=social)](https://github.com/charlzyx/wxpackup)
+
 ## 介绍
 wxpackup 是一个原生小程序项目的打包工具, 旨在提升原生小程序开发体验.
 主要目标是为原生小程序项目完善比较现代化的多环境构建项目配置,
