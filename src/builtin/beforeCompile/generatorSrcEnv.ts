@@ -2,7 +2,7 @@ import fs from 'fs';
 import { loadDotEnv } from '../../loadDotEnv';
 
 export const generatorEnv = (outputs: string[]) => {
-  const envs = loadDotEnv(process.env.env);
+  const envs = loadDotEnv(process.env.mode);
 
   outputs.forEach((item) =>
     fs.writeFileSync(

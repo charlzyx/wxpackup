@@ -52,9 +52,6 @@ export const caseSwitch = (input: string = '') => {
   const isKebab = /-/.test(input);
   const isPascal = /^[A-Z]/.test(input);
   const isCamel = !(isSnake || isKebab || isPascal);
-  if (input === 'DEBUG') {
-    console.log({ isCamel, isKebab, isPascal, isSnake });
-  }
 
   return {
     snake() {
@@ -90,3 +87,49 @@ export const caseSwitch = (input: string = '') => {
     },
   };
 };
+
+/**
+ *
+ * /**
+ * project.config.json
+ * @link https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting
+ * ci settings
+ * @link https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE
+ *
+ * @param options  project.config.json settings
+ * @returns ci settings
+ */
+export function getCompileOptions(options: /** @link  https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting */
+{
+  es6: boolean;
+  enhance: boolean;
+  minified: boolean;
+  postcss: boolean;
+  minifyWXSS: boolean;
+  minifyWXML: boolean;
+  uglifyFileName: boolean;
+  uploadWithSourceMap: boolean;
+}): /** @link https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE */
+{
+  es6: boolean;
+  es7: boolean;
+  minify: boolean;
+  autoPrefixWXSS: boolean;
+  minifyWXML: boolean;
+  minifyWXSS: boolean;
+  minifyJS: boolean;
+  codeProtect: boolean;
+  uploadWithSourceMap: boolean;
+} {
+  return {
+    es6: options.es6,
+    es7: options.enhance,
+    minify: options.minified,
+    autoPrefixWXSS: options.postcss,
+    minifyWXML: options.minified || options.minifyWXSS,
+    minifyWXSS: options.minified || options.minifyWXML,
+    minifyJS: options.minified,
+    codeProtect: options.uglifyFileName,
+    uploadWithSourceMap: options.uploadWithSourceMap,
+  };
+}

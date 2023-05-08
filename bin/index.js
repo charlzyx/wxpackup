@@ -26,7 +26,7 @@ const tsx = (command) => {
 
 yargs(hideBin(process.argv))
   .command(
-    'format <file>',
+    'formatwxml <file>',
     '格式化代码, 仅支持 WXML',
     (yargs) => {
       return yargs.positional('file', {
@@ -56,8 +56,8 @@ yargs(hideBin(process.argv))
     '编译前预处理脚本',
     (yargs) => {},
     (argv) => {
-      const rest = process.argv.slice(3).join(' ');
-      return tsx(`./builtin/beforeCompile ${rest}`);
+      const pass = process.argv.slice(3).join(' ');
+      return tsx(`./builtin/beforeCompile ${pass}`);
     },
   )
   .command(
@@ -65,8 +65,8 @@ yargs(hideBin(process.argv))
     '预览前预处理脚本',
     (yargs) => {},
     (argv) => {
-      const rest = process.argv.slice(3).join(' ');
-      return tsx(`./builtin/beforePreview ${rest}`);
+      const pass = process.argv.slice(3).join(' ');
+      return tsx(`./builtin/beforePreview ${pass}`);
     },
   )
   .command(
@@ -74,44 +74,74 @@ yargs(hideBin(process.argv))
     '上传前预处理脚本',
     (yargs) => {},
     (argv) => {
-      const rest = process.argv.slice(3).join(' ');
-      return tsx(`./builtin/beforeUpload ${rest}`);
+      const pass = process.argv.slice(3).join(' ');
+      return tsx(`./builtin/beforeUpload ${pass}`);
     },
   )
   .command(
-    'ci <buildtype>',
-    '小程序项目代码的编译命令行',
+    'cloud [command]',
+    `云开发命令行
+wxpackup cloud function       上传云函数
+wxpackup cloud storage static 上传云开发静态资源
+wxpackup cloud storage cloud  上传云存储
+wxpackup cloud container      上传云托管
+`,
     (yargs) => {
-      yargs.positional('buildtype', {
-        choices: ['preview', 'upload', 'packnpm'],
-        type: 'string',
-        default: 'preview',
-        describe:
-          '目前仅支持 preview 预览, upload 上传, packnpm 构建npm 三种类型\n 更多文档: https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html',
+      yargs.positional('command', {
+        choices: ['function', 'storage <static|cloud>', 'container'],
       });
     },
     (argv) => {
-      const rest = process.argv.slice(4).join(' ');
-      return tsx(`./callci.ts build ${argv.buildtype} ${rest}`);
+      const [_, pass] = process.argv.slice(2).join(' ').split('cloud');
+      return tsx(`./ci/cloud.ts ${pass}`);
     },
   )
   .command(
-    'cli [action]',
-    '开发者工具命令行',
+    'ci [command]',
+    `小程序项目代码的编译命令行
+wxpackup ci preview   预览
+wxpackup ci upload    上传
+wxpackup ci packnpm   构建npm
+wxpackup ci sourcemap 下载最近一次 sourcemap
+查看更多: https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html`,
     (yargs) => {
-      yargs.positional('action', {
-        type: 'string',
-        describe:
-          'wxpackup cli open #使用微信开发者工具打开当前项目;\n 更多命令查看 https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html',
+      yargs.positional('command', {
+        choices: ['preview', 'upload', 'packnpm', 'sourcemap'],
       });
     },
     (argv) => {
-      const [_, rest] = process.argv.slice(2).join(' ').split('cli');
-      tsx(`./callcli.ts cli ${rest}`);
+      const [_, pass] = process.argv.slice(2).join(' ').split('ci');
+
+      return tsx(`./ci/index.ts ${pass}`);
     },
   )
-  .option('env', {
+  .command(
+    'cli [command]',
+    `开发者工具命令行
+wxpackup cli open             启动工具 / 项目
+wxpackup cli login            重新登录工具
+wxpackup cli islogin          #islogin-desc
+wxpackup cli preview          预览
+wxpackup cli auto-preview     自动预览
+wxpackup cli upload           上传小程序
+wxpackup cli build-npm        构建 NPM
+wxpackup cli auto             开启自动化
+wxpackup cli auto-replay      开启自动化
+wxpackup cli reset-fileutils  #reset-fileutils-desc
+wxpackup cli close            关闭项目
+wxpackup cli quit             关闭 IDE
+wxpackup cli cache            清理缓存
+wxpackup cli engine           开发者工具游戏方案
+更多命令查看 https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html`,
+    (yargs) => {},
+    (argv) => {
+      const [_, pass] = process.argv.slice(2).join(' ').split('cli');
+
+      tsx(`./cli.ts cli ${pass ?? '-h'}`);
+    },
+  )
+  .option('mode', {
     type: 'string',
-    description: '项目编译环境',
+    description: '项目编译模式, 对应 .env.[mode] 文件',
   })
   .parse();

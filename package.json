@@ -6,7 +6,13 @@
   "typings": "index.d.ts",
   "scripts": {},
   "keywords": [
-    "miniprogram", "wxpackup", "wechat", "小程序", "打包", "ts", "cli"
+    "miniprogram",
+    "wxpackup",
+    "wechat",
+    "小程序",
+    "打包",
+    "ts",
+    "cli"
   ],
   "author": "charlzyx@qq.com",
   "repository": {
@@ -30,7 +36,6 @@
   "devDependencies": {
     "@types/qrcode": "^1.5.0",
     "@types/shelljs": "^0.8.12",
-    "@types/yargs": "^17.0.24",
-    "standard-version": "^9.5.0"
+    "@types/yargs": "^17.0.24"
   }
 }

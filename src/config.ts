@@ -16,7 +16,7 @@ import { byPWD, caseSwitch } from './utils';
  */
 type WxPackupConfigByProcess = {
   debug?: boolean;
-  env?: string;
+  mode?: string;
   appId?: string;
   privateKeyPath?: string;
   wxDevToolsPath?: string;
@@ -26,22 +26,40 @@ type WxPackupConfigByRc = {
   privateKeyPath?: string;
   wxDevToolsPath?: string;
   ignores?: string[];
-  compileOptions?: {
-    es6?: boolean;
-    es7?: boolean;
-    minify?: boolean;
-    autoPrefixWXSS?: boolean;
-    minifyWXML?: boolean;
-    minifyWXSS?: boolean;
-    minifyJS?: boolean;
-    codeProtect?: boolean;
-    uploadWithSourceMap?: boolean;
-  };
   packNpm?: {
     manually: boolean;
     ignores: string[];
     packageJsonPath?: string;
     miniprogramNpmDistDir?: string;
+  };
+  cloud?: {
+    // common
+    env: string; //	云环境 ID
+    // 上传云开发云函数 uploadFunction
+    name?: string; //	是	云函数名称
+    path?: string; //	是	云函数代码目录
+    remoteNpmInstall?: boolean; //	否	是否云端安装依赖，默认 false
+    //上传云开发静态网站/云存储
+    // path: string; //	是	云函数代码目录
+    remotePath?: string;
+    // 新建云开发云托管版本
+    containerRoot?: string; //	是	本地容器文件目录
+    version?: {
+      containerPort: number; // 容器监听端口
+      serverName: string; // 服务名称
+      flowRatio: number; // 流量比例
+      uploadType?: 'package' | 'repository' | 'image'; // 上传方式
+      cpu?: number; // 0-1 CPU 核心数
+      mem?: number; // 0-1 内存大小
+      minNum?: number; // 最小副本数
+      maxNum?: number; // 最大副本数
+      policyType?: 'cpu'; // 扩缩容条件
+      policyThreshold?: number; // 1-100 扩缩容阈值
+      versionRemark?: 'ci'; // 版本备注
+      envParams?: string; // '{}';  环境变量
+      buildDir?: ''; // 构建目录
+      dockerfilePath?: ''; // Dockerfile 路径
+    };
   };
 };
 
@@ -71,13 +89,26 @@ const defaultConfig: WxPackupConfigByRc & WxPackupConfigReadOnly = {
   type: 'miniProgram',
   projectPath: process.cwd(),
   privateKeyPath: '.keystore',
-  compileOptions: {
-    minify: true,
-    autoPrefixWXSS: true,
-    es6: true,
-    es7: true,
-  },
   ignores: ['node_modules/**/*'],
+  cloud: {
+    env: 'production',
+    version: {
+      uploadType: 'package', // 上传方式
+      flowRatio: 0, // 流量比例
+      cpu: 0.25, // CPU 核心数
+      mem: 0.5, // 内存大小
+      minNum: 0, // 最小副本数
+      maxNum: 1, // 最大副本数
+      policyType: 'cpu', // 扩缩容条件
+      policyThreshold: 60, // 扩缩容阈值
+      containerPort: 80, // 容器监听端口
+      serverName: 'server', // 服务名称
+      versionRemark: 'ci', // 版本备注
+      envParams: '{}', // 环境变量
+      buildDir: '', // 构建目录
+      dockerfilePath: '', // Dockerfile 路径
+    },
+  },
 };
 
 export const writeDefaultConfigFile = (to: string) => {
@@ -115,7 +146,7 @@ const argvConfig = (): WxPackupConfigByProcess => {
     debug: {
       type: 'boolean',
     },
-    env: {
+    mode: {
       type: 'string',
     },
     'app-id': {
@@ -124,7 +155,7 @@ const argvConfig = (): WxPackupConfigByProcess => {
     'project-path': {
       type: 'string',
     },
-    'provite-key-path': {
+    'private-key-path': {
       type: 'string',
     },
   }).argv;
@@ -141,8 +172,8 @@ const argvConfig = (): WxPackupConfigByProcess => {
 };
 
 /** dotEnv 环境变量 */
-const dotEnvConfig = (rankEnv: string) => {
-  const dotenvs = loadDotEnv(rankEnv || '__default__');
+const dotEnvConfig = (rankMode: string) => {
+  const dotenvs = loadDotEnv(rankMode || '__default__');
 
   const envs = Object.keys(dotenvs).reduce((map, key) => {
     // 注入 process.env, 但不能覆盖已有变量
@@ -228,8 +259,8 @@ export const loadConfig = () => {
   }
   const processConf = processEnvConfig();
   const argvConf = argvConfig();
-  const rankEnv: string = processConf.env || argvConf.env;
-  const dotConf = dotEnvConfig(rankEnv);
+  const rankMode: string = processConf.mode || argvConf.mode;
+  const dotConf = dotEnvConfig(rankMode);
   const rcConf = rcConfig();
 
   const config: Required<WxPackupAllConfig> = {
@@ -238,6 +269,14 @@ export const loadConfig = () => {
     ...dotConf,
     ...argvConf,
     ...processConf,
+    cloud: {
+      ...defaultConfig.cloud,
+      ...rcConf.cloud,
+      version: {
+        ...defaultConfig.cloud?.version,
+        ...rcConf.cloud?.version,
+      },
+    },
   };
 
   logConfigRank(config, [
@@ -246,7 +285,7 @@ export const loadConfig = () => {
     {
       data: dotConf,
       rank: -3,
-      name: `.env/.env${rankEnv ? `,.env.${rankEnv.toLowerCase()}` : ''}`,
+      name: `.env/.env${rankMode ? `,.env.${rankMode.toLowerCase()}` : ''}`,
     },
     { data: argvConf, rank: -2, name: '命令行参数' },
     { data: processConf, rank: -1, name: '环境变量' },
