@@ -147,6 +147,7 @@ module.exports = {
 wxpackup [命令]
 
 命令：
+  wxpackup mock [root] [port] 启动 mock 服务
   wxpackup formatwxml <file>  格式化代码, 仅支持 WXML
   wxpackup beforeCompile      编译前预处理脚本
   wxpackup beforePreview      预览前预处理脚本

@@ -5,6 +5,7 @@ const yargs = require('yargs/yargs');
 const fs = require('fs');
 const { hideBin } = require('yargs/helpers');
 const path = require('path');
+const mock = require('./mock');
 
 const FORMAT = {
   content_unformatted: 'text',
@@ -25,6 +26,14 @@ const tsx = (command) => {
 };
 
 yargs(hideBin(process.argv))
+  .command(
+    'mock [root] [port]',
+    '启动 mock 服务',
+    (yargs) => {},
+    (argv) => {
+      mock(argv.root, argv.port);
+    },
+  )
   .command(
     'formatwxml <file>',
     '格式化代码, 仅支持 WXML',
