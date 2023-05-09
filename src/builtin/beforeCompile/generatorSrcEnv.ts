@@ -17,6 +17,6 @@ export const generatorEnv = (outputs: string[]) => {
         .filter(Boolean)
         .join('\n'),
       'utf-8',
-    ),
+    )
   );
 };

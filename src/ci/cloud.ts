@@ -1,9 +1,9 @@
-import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
+import { log } from '../log';
 import { uploadContainer } from './cloud/uploadContainer';
 import { uploadFunction } from './cloud/uploadFunction';
 import { uploadStorage } from './cloud/uploadStroage';
-import { log } from '../log';
 
 yargs(hideBin(process.argv))
   .command(

@@ -1,10 +1,10 @@
 import * as ci from 'miniprogram-ci';
+import { CONFIG_FILES } from '../configFiles';
 import { log, spinner } from '../log';
 import { byPWD, getCompileOptions } from '../utils';
-import { CONFIG_FILES } from '../configFiles';
-import { postPreviewOrUpload } from './shared';
-import { getProject } from './project';
 import { pkgNpm } from './packnpm';
+import { getProject } from './project';
+import { postPreviewOrUpload } from './shared';
 
 export const previewOrUpload = async (
   type: 'preview' | 'upload',

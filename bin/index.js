@@ -27,6 +27,14 @@ const tsx = (command) => {
 
 yargs(hideBin(process.argv))
   .command(
+    'new',
+    '创建页面或组件',
+    (yargs) => {},
+    async (argv) => {
+      return tsx('./create');
+    },
+  )
+  .command(
     'mock [root] [port]',
     '启动 mock 服务',
     (yargs) => {},

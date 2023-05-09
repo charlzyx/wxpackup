@@ -1,9 +1,9 @@
-import * as ci from 'miniprogram-ci';
 import fs from 'fs';
+import * as ci from 'miniprogram-ci';
 import path from 'path';
 import { loadConfig } from '../config';
-import { byPWD, ifNotFoundThrowError } from '../utils';
 import { CONFIG_FILES } from '../configFiles';
+import { byPWD, ifNotFoundThrowError } from '../utils';
 
 const config = loadConfig();
 

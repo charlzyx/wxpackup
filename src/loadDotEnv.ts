@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { loadConfig } from './config';
-import { byPWD } from './utils';
 import { log } from './log';
+import { byPWD } from './utils';
 
 /**
   * 解析 dot env 文件

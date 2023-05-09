@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const { Stream } = require('stream');
 
-const html = (title) => `<!DOCTYPE html>
+const html = (title) =>
+  `<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>wxpackup mock</title>

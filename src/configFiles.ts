@@ -1,7 +1,7 @@
-import { loadConfig } from './config';
-import { byPWD, ifNotFoundThrowError } from './utils';
 import fs from 'fs';
 import path from 'path';
+import { loadConfig } from './config';
+import { byPWD, ifNotFoundThrowError } from './utils';
 
 export const CONFIG_FILES = {
   packageJson: {

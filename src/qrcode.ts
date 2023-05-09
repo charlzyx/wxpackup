@@ -8,7 +8,7 @@ import * as QRCode from 'qrcode';
  */
 export function readQrcodeImageContent(imagePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    Jimp.read(imagePath, function (err, image) {
+    Jimp.read(imagePath, function(err, image) {
       if (err) {
         reject(err);
         return;

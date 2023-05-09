@@ -2,14 +2,18 @@
   // ---- ts, js, json, less 自动格式化
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rome.rome"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[javascript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rome.rome"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[json]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rome.rome"
-  }
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
 }

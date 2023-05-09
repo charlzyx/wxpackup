@@ -6,10 +6,10 @@ export const spinner = () => {
   return (
     task:
       | {
-          id: string;
-          message: string;
-          status: 'done' | 'doing';
-        }
+        id: string;
+        message: string;
+        status: 'done' | 'doing';
+      }
       | string,
   ) => {
     if (typeof task === 'string') {

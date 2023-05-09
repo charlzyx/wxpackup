@@ -1,7 +1,7 @@
 import * as ci from 'miniprogram-ci';
 
-import { log } from '../log';
 import { loadConfig } from '../config';
+import { log } from '../log';
 import { getProject } from './project';
 
 const config = loadConfig();

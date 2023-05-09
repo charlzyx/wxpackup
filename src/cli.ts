@@ -1,20 +1,19 @@
-import { loadConfig } from './config';
-import shell from 'shelljs';
 import fs from 'fs';
-import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers';
 import os from 'os';
 import path from 'path';
+import shell from 'shelljs';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
+import { loadConfig } from './config';
 import { log } from './log';
-import { ifNotFoundThrowError, getUserHomeDir } from './utils';
+import { getUserHomeDir, ifNotFoundThrowError } from './utils';
 
 const config = loadConfig();
 
 const check = () => {
   const isWindows = os.platform() === 'win32';
-  const wxDevToolsPath =
-    config.wxDevToolsPath ||
-    (!isWindows
+  const wxDevToolsPath = config.wxDevToolsPath
+    || (!isWindows
       ? '/Applications/wechatwebdevtools.app'
       : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具');
 
@@ -133,20 +132,21 @@ const buildOptions = (kvs: string | Record<string, string>) => {
   return typeof kvs === 'string'
     ? kvs
     : Object.keys(kvs)
-        .map((key) => `--${key} ${kvs[key] || ''}`)
-        .join(' ');
+      .map((key) => `--${key} ${kvs[key] || ''}`)
+      .join(' ');
 };
 
 export const cli = {
   exec(command: Command, options: string | Record<string, string> = {}) {
-    const has =
-      (typeof options === 'string' && /--project/.test(options)) ||
-      (typeof options === 'object' && options.project);
+    const has = (typeof options === 'string' && /--project/.test(options))
+      || (typeof options === 'object' && options.project);
 
     const def = has ? '' : `--project ${config.projectPath}`;
-    const cli = `${check().bin} ${command} ${buildOptions(
-      options,
-    )} ${def} --lang zh`;
+    const cli = `${check().bin} ${command} ${
+      buildOptions(
+        options,
+      )
+    } ${def} --lang zh`;
 
     log.magenta('执行命令: ', cli);
 

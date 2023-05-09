@@ -1,6 +1,6 @@
+import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import fs from 'fs';
 import { log } from './log';
 
 export const byPWD = (...parts: string[]) => {
@@ -67,18 +67,21 @@ export const caseSwitch = (input: string = '') => {
       return input;
     },
     camel() {
-      if (isSnake)
+      if (isSnake) {
         return input
           .toLowerCase()
           .replace(/(_[a-z])/g, (x) => x.toUpperCase()[1]);
-      if (isKebab)
+      }
+      if (isKebab) {
         return input
           .toLowerCase()
           .replace(/(-[a-z])/g, (x) => x.toUpperCase()[1]);
-      if (isPascal)
+      }
+      if (isPascal) {
         return /[a-z]/.test(input)
           ? input.replace(/^[A-Z]/, (x) => x.toLowerCase())
           : input.toLowerCase();
+      }
       return input;
     },
     Pascal() {
@@ -89,7 +92,6 @@ export const caseSwitch = (input: string = '') => {
 };
 
 /**
- *
  * /**
  * project.config.json
  * @link https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting
@@ -99,17 +101,19 @@ export const caseSwitch = (input: string = '') => {
  * @param options  project.config.json settings
  * @returns ci settings
  */
-export function getCompileOptions(options: /** @link  https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting */
-{
-  es6: boolean;
-  enhance: boolean;
-  minified: boolean;
-  postcss: boolean;
-  minifyWXSS: boolean;
-  minifyWXML: boolean;
-  uglifyFileName: boolean;
-  uploadWithSourceMap: boolean;
-}): /** @link https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE */
+export function getCompileOptions(
+  options: /** @link  https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html#setting */
+    {
+      es6: boolean;
+      enhance: boolean;
+      minified: boolean;
+      postcss: boolean;
+      minifyWXSS: boolean;
+      minifyWXML: boolean;
+      uglifyFileName: boolean;
+      uploadWithSourceMap: boolean;
+    },
+): /** @link https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE */
 {
   es6: boolean;
   es7: boolean;

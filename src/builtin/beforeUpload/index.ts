@@ -1,5 +1,5 @@
-import { log } from '../../log';
 import { loadConfig } from '../../config';
+import { log } from '../../log';
 log.green('builtin beforeUpload, do nothing');
 import { getCutomeScripts, tsx } from '../helper';
 

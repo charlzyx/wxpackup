@@ -1,9 +1,9 @@
-import { byPWD } from '../../utils';
-import { generatorEnv } from './generatorSrcEnv';
-import { resolveTsConfigPathsToAlias } from './resolveTsConfigPaths';
-import { getCutomeScripts, tsx } from '../helper';
 import { loadConfig } from '../../config';
 import { log } from '../../log';
+import { byPWD } from '../../utils';
+import { getCutomeScripts, tsx } from '../helper';
+import { generatorEnv } from './generatorSrcEnv';
+import { resolveTsConfigPathsToAlias } from './resolveTsConfigPaths';
 
 const outputs = [byPWD('./src/env.ts')];
 

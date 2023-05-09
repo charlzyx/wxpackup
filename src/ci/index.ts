@@ -1,10 +1,10 @@
-import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 import { CONFIG_FILES } from '../configFiles';
+import { log } from '../log';
 import { pkgNpm } from './packnpm';
 import { previewOrUpload } from './previewOrUpload';
 import { saveSourceMapTo } from './sourcemap';
-import { log } from '../log';
 
 const getPublishInfo = () => {
   return {

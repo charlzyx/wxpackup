@@ -6,7 +6,13 @@
   "typings": "index.d.ts",
   "scripts": {},
   "keywords": [
-    "miniprogram", "wxpackup", "wechat", "小程序", "打包", "ts", "cli"
+    "miniprogram",
+    "wxpackup",
+    "wechat",
+    "小程序",
+    "打包",
+    "ts",
+    "cli"
   ],
   "author": "charlzyx@qq.com",
   "repository": {
@@ -15,14 +21,16 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@inquirer/prompts": "^1.0.3",
     "chalk": "^5.2.0",
+    "dprint": "^0.36.1",
     "jimp": "^0.22.7",
     "js-beautify": "^1.14.7",
     "jsqr": "^1.4.0",
+    "koa": "^2.14.2",
     "miniprogram-ci": "^1.9.6",
     "ora": "^6.3.0",
     "qrcode": "^1.5.3",
-    "rome": "^12.0.0",
     "shelljs": "^0.8.5",
     "tsx": "^3.12.7",
     "yargs": "^17.7.2"
@@ -30,7 +38,6 @@
   "devDependencies": {
     "@types/qrcode": "^1.5.0",
     "@types/shelljs": "^0.8.12",
-    "@types/yargs": "^17.0.24",
-    "koa": "^2.14.2"
+    "@types/yargs": "^17.0.24"
   }
 }

@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 import { CONFIG_FILES } from './configFiles';
 import { loadDotEnv } from './loadDotEnv';
 import { log } from './log';
-import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers';
 import { byPWD, caseSwitch } from './utils';
 
 /**
@@ -34,16 +34,16 @@ type WxPackupConfigByRc = {
   };
   cloud?: {
     // common
-    env: string; //	云环境 ID
+    env: string; // 	云环境 ID
     // 上传云开发云函数 uploadFunction
-    name?: string; //	是	云函数名称
-    path?: string; //	是	云函数代码目录
-    remoteNpmInstall?: boolean; //	否	是否云端安装依赖，默认 false
-    //上传云开发静态网站/云存储
+    name?: string; // 	是	云函数名称
+    path?: string; // 	是	云函数代码目录
+    remoteNpmInstall?: boolean; // 	否	是否云端安装依赖，默认 false
+    // 上传云开发静态网站/云存储
     // path: string; //	是	云函数代码目录
     remotePath?: string;
     // 新建云开发云托管版本
-    containerRoot?: string; //	是	本地容器文件目录
+    containerRoot?: string; // 	是	本地容器文件目录
     version?: {
       containerPort: number; // 容器监听端口
       serverName: string; // 服务名称
@@ -79,9 +79,10 @@ const isAllowedConfKeyInDotEnv = (key: string) => {
   return allowEnvConfigKeyList.includes(key);
 };
 
-export type WxPackupAllConfig = WxPackupConfigByProcess &
-  WxPackupConfigByRc &
-  WxPackupConfigReadOnly;
+export type WxPackupAllConfig =
+  & WxPackupConfigByProcess
+  & WxPackupConfigByRc
+  & WxPackupConfigReadOnly;
 
 export type WxPackupConfig = WxPackupConfigByRc;
 

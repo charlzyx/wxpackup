@@ -1,7 +1,7 @@
 import * as ci from 'miniprogram-ci';
+import { loadConfig } from '../../config';
 import { log } from '../../log';
 import { getProject } from '../project';
-import { loadConfig } from '../../config';
 
 const config = loadConfig();
 
@@ -9,10 +9,9 @@ export const uploadStorage = async (
   // 类型
   type?: '静态文件' | '云存储',
 ) => {
-  const hint =
-    type === '云存储'
-      ? '<Cloud.uploadStorage|上传开云开发存储>'
-      : '<Cloud.uploadStaticStorage|上传云开发静态网站>';
+  const hint = type === '云存储'
+    ? '<Cloud.uploadStorage|上传开云开发存储>'
+    : '<Cloud.uploadStaticStorage|上传云开发静态网站>';
   try {
     const project = getProject();
     const cloudConfig = config.cloud as Required<typeof config.cloud>;

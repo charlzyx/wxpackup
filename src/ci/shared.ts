@@ -1,11 +1,7 @@
 import * as ci from 'miniprogram-ci';
-import {
-  generateQrcodeImageFile,
-  printQrcode2Terminal,
-  readQrcodeImageContent,
-} from '../qrcode';
-import { log } from '../log';
 import { loadConfig } from '../config';
+import { log } from '../log';
+import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from '../qrcode';
 import { kbSize } from '../utils';
 
 const config = loadConfig();
@@ -24,8 +20,7 @@ const analytics = (
     );
     const extInfo = `本次上传${
       // rome-ignore lint/style/noNonNullAssertion: <explanation>
-      kbSize(allPackageInfo!.size)
-    }kb ${mainPackageInfo ? `,其中主包${kbSize(mainPackageInfo.size)}kb` : ''}`;
+      kbSize(allPackageInfo!.size)}kb ${mainPackageInfo ? `,其中主包${kbSize(mainPackageInfo.size)}kb` : ''}`;
     log.bgCyan(`上传成功 ${new Date().toLocaleString()} \n${extInfo}`);
   }
 };
