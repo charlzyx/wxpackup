@@ -11,7 +11,7 @@ import { byPWD, caseSwitch } from './utils';
  * 配置优先级
  * 1. PROCESS: process.env
  * 2. PROCESS: process.argv
- * 3. PROCESS: .env/.env.*
+ * 3. PROCESS: .envs/.env.[mode]
  * 4. RC: wxpackup.config.js
  */
 type WxPackupConfigByProcess = {
@@ -286,7 +286,7 @@ export const loadConfig = () => {
     {
       data: dotConf,
       rank: -3,
-      name: `.env/.env${rankMode ? `,.env.${rankMode.toLowerCase()}` : ''}`,
+      name: `.envs/.env${rankMode ? `,.env.${rankMode.toLowerCase()}` : ''}`,
     },
     { data: argvConf, rank: -2, name: '命令行参数' },
     { data: processConf, rank: -1, name: '环境变量' },

@@ -46,11 +46,12 @@ const dotENVToKvs = (content: string) => {
 };
 
 export const loadDotEnv = (env?: string) => {
-  if (!fs.existsSync(byPWD('./.env'))) {
-    log.bgYellow('未找到 .env 文件夹', byPWD('./.env'));
+  const envsDir = byPWD('./.envs');
+  if (!fs.existsSync(envsDir)) {
+    log.bgYellow('未找到 .envs 文件夹', envsDir);
     return {};
   }
-  const loadEnvFiles = fs.readdirSync(byPWD('./.env')).filter((item) => {
+  const loadEnvFiles = fs.readdirSync(envsDir).filter((item) => {
     const [_, __, envSuffix] = item.split('.');
     if (env !== undefined) {
       const envStr = Array.isArray(env) ? env.filter(Boolean)[0] : env;
@@ -66,7 +67,7 @@ export const loadDotEnv = (env?: string) => {
   loadEnvFiles.sort((a, b) => a.length - b.length);
 
   const envs = loadEnvFiles.reduce((map, item) => {
-    const content = fs.readFileSync(byPWD('./.env', item), 'utf-8').toString();
+    const content = fs.readFileSync(byPWD('./.envs', item), 'utf-8').toString();
 
     const kvs = dotENVToKvs(content);
     return {

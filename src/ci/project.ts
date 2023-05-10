@@ -20,7 +20,7 @@ export const getProject = () => {
   ifNotFoundThrowError(
     privateKeyPath,
     `秘钥文件未找到, 请确认文件是否存在, 并检查一下配置项
- - .env/.env.xxx 中 APP_ID 字段
+ - .envs/.env.xxx 中 APP_ID 字段
  - project.config.json 中 appid 字段`,
   );
 

@@ -1,10 +1,10 @@
 # wxpackup 微信小程序打包工具
 
-[![npm](https://img.shields.io/npm/v/wxpackup
-)](https://www.npmjs.com/package/wxpackup)
+[![npm](https://img.shields.io/npm/v/wxpackup)](https://www.npmjs.com/package/wxpackup)
 [![star this repo](https://img.shields.io/github/stars/charlzyx/wxpackup?style=social)](https://github.com/charlzyx/wxpackup)
 
 ## 介绍
+
 wxpackup 是一个原生小程序项目的打包工具, 旨在提升原生小程序开发体验.
 主要目标是为原生小程序项目完善比较现代化的多环境构建项目配置,
 同时封装了小程序官方的 ci/cli 命令, 来方便开发者使用.
@@ -16,7 +16,6 @@ npm install wxpackup --dev
 yarn install wxpackup --dev
 ```
 
-
 ## 项目结构
 
 ```
@@ -26,10 +25,10 @@ yarn install wxpackup --dev
 ├── project.config.json                 # 小程序项目配置文件
 ├── project.private.config.json         # 小程序项目私有配置文件。此文件中的内容将覆盖
 ├── tsconfig.json                       # TypeScript 配置文件
-├── .env                                # [可选?] 不同 [模式] 对应的 dotenv 文件
+├── .envs                               # [可选?] 不同 [模式] 对应的 dotenv 文件
 │   ├── .env                            # tips: 所有情况下都会加载
 │   └── .env.local                      # tips: 指定 `--env=local` 的情况下会加载, 并覆盖 `.env` 中的属性
-│   └── .env.[mode]                      # tips: 指定 模式
+│   └── .env.[mode]                     # tips: 指定 模式
 情况下会加载, 并覆盖 `.env` 中的属性
 ├── .keystore                           # [可选?] 用户上传秘钥文件夹
 │   └── private.${appid}.key
@@ -51,9 +50,7 @@ yarn install wxpackup --dev
 ├── .rome.json                          # [IDE插件] js/ts 格式化配置
 ├── .stylelintrc.js                     # [IDE插件] less/css 格式化配置
 └── .vscode                             # [IDE插件] vscode 项目的编辑器配置, 用来指定一些格式化和插件配置
-
 ```
-
 
 ## 环境变量 .env/.env*
 
@@ -61,12 +58,12 @@ yarn install wxpackup --dev
 
 2. `DEBUG`, `APP_ID`, `PRIVATE_KEY_PATH`, `WX_DEV_TOOLS_PATH` 则将作为 `wxpackup` 的配置项来使用
 
-
 > 另外，wxpackup 执行时已经存在的环境变量有最高的优先级，不会被 .env[mode] 模式文件覆盖. 例如当运行 DBEUG=true npx wxpackup build 的时候, .env 文件中的 `DEBUG` 配置将会失效
 
 > 此外, env 和 process.env 中的环境变量, 在作为 wxpackup 配置使用的时候, 大小写不敏感, 也就是 `debug` 和 `DEBUG` 是一样的
 
 .env/.env
+
 ```bash
 # 默认环境变量, 所有变量都会被注入 process.env
 NODE_ENV=production
@@ -78,6 +75,7 @@ APP_API_PREFIX=https://api.example.com
 ```
 
 .env/.env.local
+
 ```bash
 # --env=local 的时候会注入, 所有变量都会被注入 process.env
 NODE_ENV=devlopment
@@ -93,8 +91,9 @@ APP_API_PREFIX=https://test.example.com
 目前配置文件只支持非常少的配置项, 通过项目结构中的文件夹和文件名称的约定来减少配置
 
 其中配置项的来源有以下几个路径, 按照优先级排序
+
 1. 环境变量 `process.env` , 拼写格式为 `SNAKE_CASE`
-2. 命令行参数 `wxpackup --some-opt=something`,  拼写格式为 `kabeb-case`
+2. 命令行参数 `wxpackup --some-opt=something`, 拼写格式为 `kabeb-case`
 3. `.env.*` 中的环境变量 如: `DEBUG=true`, 拼写格式为 `SNAKE_CASE`
 4. 配置文件 `wxpackup.config.js`, 拼写格式为 `camelCase`, 可以读取环境变量
 5. 内置的默认配置
@@ -132,6 +131,7 @@ type WxPackupConfigReadOnly = {
 ```
 
 wxpackup.config.js
+
 ```
 /** 可以访问 process.env **/
 /** @type import('wxpackup').WxPackupConfig */
@@ -190,23 +190,23 @@ wxpackup [命令]
   --mode     项目编译模式, 对应 .env.[mode] 文件                        [字符串]
 ```
 
-
 ## npm 脚本示例 scripts
 
 ```json
 {
-    "#指定模式的build": "npm run build:preview  --mode=local",
-    "#这样也可以": "mode=local npm run build:preview",
-    "build:preview": "npx wxpackup ci preview",
-    "build:packnpm": "npx wxpackup ci packnpm",
-    "build:upload": "npx wxpackup ci upload",
-    "cli:open": "npx wxpackup cli open",
-    "cli:help": "npx wxpackup cli -h",
-    "beforeCompile": "npx wxpackup beforeCompile",
-    "beforePreview": "npx wxpackup beforePreview",
-    "beforeUpload": "npx wxpackup beforeUpload",
+  "#指定模式的build": "npm run build:preview  --mode=local",
+  "#这样也可以": "mode=local npm run build:preview",
+  "build:preview": "npx wxpackup ci preview",
+  "build:packnpm": "npx wxpackup ci packnpm",
+  "build:upload": "npx wxpackup ci upload",
+  "cli:open": "npx wxpackup cli open",
+  "cli:help": "npx wxpackup cli -h",
+  "beforeCompile": "npx wxpackup beforeCompile",
+  "beforePreview": "npx wxpackup beforePreview",
+  "beforeUpload": "npx wxpackup beforeUpload"
 }
 ```
+
 ## Demo 示例
 
 [wxpackup-startkit](https://github.com/charlzyx/wxpackup-startkit)
