@@ -9,7 +9,7 @@ const mock = require('./mock');
 
 const FORMAT = {
   content_unformatted: 'text',
-  wrap_attributes: 'force-expand-multiline',
+  wrap_attributes: 'force-aligned',
   indent_size: 2,
   wrap_attributes_indent_size: 2,
   void_elements: 'image,input,video',
